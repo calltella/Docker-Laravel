@@ -4,14 +4,12 @@ services:
     image: nginx:1.20
     ports:
       - "80:80"
-    depends_on:
+    depends_on:  # 依存関係(起動順)
       - app
     volumes:
       - ./infra/web/default.conf:/etc/nginx/conf.d/default.conf
-      - .:/var/www/html
-    links:
-      - app
-      - mysql
+      - ./laravel/public:/var/www/html/laravel/public  # phpはappで動作するがcssなどはwebで動作
+      #links: は廃止予定なのでつかわない
     
   app:
     build: ./infra/php
@@ -25,8 +23,10 @@ services:
     env_file: .env_db
     command: --default-authentication-plugin=mysql_native_password  --default-time-zone=Asia/Tokyo
     ports:
-      - "127.0.0.1:3306:3306"
+      - "3306:3306"
     volumes:
       - ./infra/db/mysql/volumes:/var/lib/mysql
       - ./mysqlexport:/var/lib/mysql-files
+    # 自動起動の有効化
+    restart: always
 
