@@ -1,5 +1,5 @@
 .env_db
-laravel/
-mysqlexport/
+laravel/*
+mysqlexport/*
 infra/db/mysql/volumes/
 
