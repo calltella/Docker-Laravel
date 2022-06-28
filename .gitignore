@@ -1,3 +1,5 @@
-.env_db
+.env
 infra/db/mysql/volumes/
 laravel/
+/infra/docker/phpmyadmin/sessions/*
+/infra/docker/nginx/logs/*
