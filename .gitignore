@@ -1,5 +1,6 @@
 .env
 infra/db/mysql/volumes/
 laravel/
+/export/*
 /infra/docker/phpmyadmin/sessions/*
 /infra/docker/nginx/logs/*

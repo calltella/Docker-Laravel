@@ -1,8 +1,7 @@
-# For more information: https://laravel.com/docs/sail
 version: '3'
 services:
-    laravel.apline:
-        container_name: 'docker_php_1'
+    laravel:
+        container_name: 'docker_php'
         image: tangramor/nginx-php8-fpm
         environment:
             TZ: 'Asia/Tokyo'
@@ -23,22 +22,23 @@ services:
         volumes_from:
             - mysql
         networks:
-            - sail
+            - internal
         depends_on:
             - mysql
         restart: '${DOCKER_RESTART}'
     cron:
-        container_name: 'docker_cron_1'
+        container_name: 'docker_cron'
         build: ./infra/docker/cron
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         networks:
-            - sail
+            - internal
         restart: '${DOCKER_RESTART}'
     mysql:
+        container_name: 'docker_mysql'
         image: 'mysql/mysql-server:8.0'
         ports:
-            - '${FORWARD_DB_PORT:-3306}:3306'
+            - '${DB_PORT:-3306}:3306'
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: "%"
@@ -47,19 +47,14 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
-            - 'sail-mysql:/var/lib/mysql'
-# mkdir export
+            - 'db-mysql:/var/lib/mysql'
             - './export:/var/lib/mysql-files'
             - ./infra/docker/mysql/my.cnf:/etc/my.cnf
         networks:
-            - sail
-        healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
-            retries: 3
-            timeout: 5s
+            - internal
         restart: '${DOCKER_RESTART}'
-# mkdir -p ./infra/docker/phpmyadmin/sessions ディレクトリ作成
     phpmyadmin:
+        container_name: 'docker_phpmyadmin'
         image: phpmyadmin/phpmyadmin
         environment:
             - PMA_ARBITRARY=1
@@ -67,21 +62,21 @@ services:
             - PMA_USER=root
             - PMA_PASSWORD=password
         ports:
-            - 8080:80
+            - '${PHPMYADMIN_PORT:-8080}:80'
         volumes:
             - ./infra/docker/phpmyadmin/sessions:/sessions
             - ./infra/docker/phpmyadmin/config.inc.php:/etc/phpmyadmin/config.inc.php
         networks:
-            - sail
+            - internal
         depends_on:
             - mysql
 networks:
-    sail:
+    internal:
         driver: bridge
         ipam:
             driver: default
             config:
-                - subnet: 192.168.10.0/24
+                - subnet: 192.168.10.0/27
 volumes:
-    sail-mysql:
+    db-mysql:
         driver: local
