@@ -2,24 +2,23 @@
 
 ## 概要
 
-LaraDockを使う方法がありましたが、少々大きすぎるので必要最小限のものを自分で用意したくで作ってみました。<br>
-今後、このリポジトリをgit cloneすれば手軽にLaravelアプリ開発コンテナが用意できる。（Dockerfile使えばもっと自動化できる）
+DockerでLaravelを手軽に使用出来る様に
 
 ### Docker環境
 
- - Docker-Desctop 2.0.0.2 
- - docker-compose 1.23.2
+ - Docker 20.10.13
+ - docker-compose 1.29.2
 
 ### 構築環境
 
- - php:7.2.12-fpm
- - nginx:1.15.6
- - mysql:5.7
+ - php:8.1.6-fpm
+ - nginx:1.21.6
+ - mysql:8.0.28
+ - node:18.2.0
 
 ### 参考
 
- - [Laravelの環境（Nginx+MySQL+PHP）をdocker-composeでイチから作るチュートリアル](https://windii.jp/backend/laravel/laravel-with-docker-compose)
- - [DockerのMySQLイメージ起動時に渡す環境変数](https://qiita.com/nanakenashi/items/180941699dc7ba9d0922)
+
 
 ## 手順
 
