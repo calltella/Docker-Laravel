@@ -40,12 +40,12 @@ services:
         ports:
             - '${DB_PORT:-3306}:3306'
         environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ROOT_HOST: "%"
+            MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: '${DB_DATABASE}'
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            TZ: 'Asia/Tokyo'
         volumes:
             - 'db-mysql:/var/lib/mysql'
             - './export:/var/lib/mysql-files'
@@ -58,9 +58,9 @@ services:
         image: phpmyadmin/phpmyadmin
         environment:
             - PMA_ARBITRARY=1
-            - PMA_HOST=mysql
+            - PMA_HOST=docker_mysql
             - PMA_USER=root
-            - PMA_PASSWORD=password
+            - PMA_PASSWORD=root
         ports:
             - '${PHPMYADMIN_PORT:-8080}:80'
         volumes:

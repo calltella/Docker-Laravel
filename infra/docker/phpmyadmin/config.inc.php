@@ -75,7 +75,8 @@ if (!empty($_ENV['PMA_SOCKET'])) {
 for ($i = 1; isset($hosts[$i - 1]); $i++) {
     $cfg['Servers'][$i]['host'] = $hosts[$i - 1];
     $cfg['Servers'][$i]['AllowDeny']['order'] = 'deny,allow';
-    $cfg['Servers'][$i]['AllowDeny']['rules'] = array('deny % from all','allow % from 172.25.5.0/24');
+    $cfg['Servers'][$i]['AllowDeny']['rules'] = array('deny % from all','allow % from 192.168.10.0/27');
+    //$cfg['Servers'][$i]['AllowDeny']['rules'] = array('allow % from all');
     if (isset($verbose[$i - 1])) {
         $cfg['Servers'][$i]['verbose'] = $verbose[$i - 1];
     }
