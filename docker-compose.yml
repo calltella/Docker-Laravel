@@ -36,16 +36,19 @@ services:
         restart: '${DOCKER_RESTART}'
     mysql:
         container_name: 'docker_mysql'
-        image: 'mysql/mysql-server:8.0'
+        image: mysql:8.0
         ports:
-            - '${DB_PORT:-3306}:3306'
+            - '3308:3306'
+        command:
+            mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+            --default-authentication-plugin=mysql_native_password
         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 1
             TZ: 'Asia/Tokyo'
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
             - 'db-mysql:/var/lib/mysql'
             - './export:/var/lib/mysql-files'
@@ -58,14 +61,13 @@ services:
         image: phpmyadmin/phpmyadmin
         environment:
             - PMA_ARBITRARY=1
-            - PMA_HOST=docker_mysql
+            - PMA_HOSTS=mysql
             - PMA_USER=root
             - PMA_PASSWORD=root
         ports:
             - '${PHPMYADMIN_PORT:-8080}:80'
         volumes:
             - ./infra/docker/phpmyadmin/sessions:/sessions
-            - ./infra/docker/phpmyadmin/config.inc.php:/etc/phpmyadmin/config.inc.php
         networks:
             - internal
         depends_on:
