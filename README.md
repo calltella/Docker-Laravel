@@ -34,9 +34,9 @@ $ docker-compose up -d
 ### laravelプロジェクト配置
 ```
 $ docker-compose exec laravel bash
-# rm -f laravel/.gitignore //フォルダの中身が空じゃないとエラーになる
-# composer create-project laravel/laravel laravel
-# composer create-project "laravel/laravel=8.*" laravel //バージョン指定したい場合
+# rm -f .gitignore //フォルダの中身が空じゃないとエラーになる
+# composer create-project laravel/laravel .
+# composer create-project "laravel/laravel=8.*" . //バージョン指定したい場合
 ```
 ### Laravel配置で以下のエラーが出る場合
 ```
