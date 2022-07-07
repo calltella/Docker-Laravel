@@ -36,7 +36,7 @@ $ docker-compose up -d
 $ docker-compose exec laravel bash
 # rm -f .gitignore //フォルダの中身が空じゃないとエラーになる
 # composer create-project laravel/laravel .
-# composer create-project "laravel/laravel=8.*" . //バージョン指定したい場合
+# composer create-project "laravel/laravel=9.1.*" . //バージョン指定したい場合(v9.2からlaravel-mix廃止)
 ```
 
 ### laravelインストール後
