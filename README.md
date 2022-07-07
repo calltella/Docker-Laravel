@@ -38,18 +38,7 @@ $ docker-compose exec laravel bash
 # composer create-project laravel/laravel .
 # composer create-project "laravel/laravel=8.*" . //バージョン指定したい場合
 ```
-### Laravel配置で以下のエラーが出る場合
-```
-Creating a "laravel/laravel" project at "./laravel"
 
-In CurlDownloader.php line 645:
-
-  The "https://mirrors.cloud.tencent.com/composer/packages.json" file could not be downloaded (HTTP/1.1 404 Not Found)
-
-
-# composer config -g repo.packagist composer https://packagist.org //パッケージミラーURLを変更
-
-```
 ### laravelインストール後
 ```
 # cd laravel
