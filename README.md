@@ -41,7 +41,6 @@ $ docker-compose exec laravel bash
 
 ### laravelインストール後
 ```
-# cd laravel
 # php artisan key:generate
 # chown -R nginx:nginx storage
 # exit
