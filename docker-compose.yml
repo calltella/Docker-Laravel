@@ -7,13 +7,10 @@ services:
             TZ: 'Asia/Tokyo'
             WEBROOT: '/var/www/html/public'
             PHP_REDIS_SESSION_HOST: 'redis'
-            CREATE_LARAVEL_STORAGE: '1'
-            COMPOSERMIRROR: 'https://mirrors.cloud.tencent.com/composer/'
+            COMPOSERMIRROR: 'https://packagist.org'
             NPMMIRROR: 'https://registry.npm.taobao.org'
         ports:
             - '${APP_PORT:-80}:80'
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
         volumes:
             - './laravel:/var/www/html'
             - './infra/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf'
@@ -38,12 +35,17 @@ services:
         container_name: 'docker_mysql'
         image: mysql:8.0
         ports:
-            - '3308:3306'
+            - '3306:3306'
         command:
             mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
         environment:
             TZ: 'Asia/Tokyo'
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: password
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
         volumes:
             - 'db-mysql:/var/lib/mysql'
             - './export:/var/lib/mysql-files'
@@ -57,7 +59,7 @@ services:
             - PMA_ARBITRARY=1
             - PMA_HOST=mysql
             - PMA_USER=root
-            - PMA_PASSWORD=root
+            - PMA_PASSWORD=password
         ports:
             - '${PHPMYADMIN_PORT:-8080}:80'
         volumes:
